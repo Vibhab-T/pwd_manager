@@ -1,2 +1,2 @@
 # pwd_manager
-password manager
+[documentation...]
