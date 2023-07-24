@@ -1,5 +1,41 @@
-#include<stdio.h>
-#include<string.h>
+#include<iostream>
+#include<conio.h>
+#include<string>
+
+int createAcc(){
+    printf("createAcc module");
+}
+
+int deleteAcc(){
+    printf("deleteAcc module");
+}
+
+int login(){
+
+    char userLoginPwd[10];
+    int userLoginPwdIndex = 0;
+    char userLoginPwdTyping;
+
+    printf("\nenter your login pwd: ");
+
+    //masking password while typing
+    for(userLoginPwdIndex = 0; userLoginPwdIndex< 10; userLoginPwdIndex++){
+
+             userLoginPwdTyping = getch();
+
+                 if(userLoginPwdTyping == 13){
+                      break;
+                     }
+
+              userLoginPwd[userLoginPwdIndex] = userLoginPwdTyping;
+              userLoginPwdTyping = '*' ;
+              printf("%c ", userLoginPwdTyping);
+       }
+
+    //printing password
+    userLoginPwd[userLoginPwdIndex]='\0';
+    printf("\nyour password is %s", userLoginPwd);
+}
 
 int main(){
 
@@ -47,39 +83,4 @@ switch(userMainChoice){
     printf("invalid choice!");
 }
 
-}
-
-createAcc(){
-    printf("createAcc module");
-}
-
-deleteAcc(){
-    printf("deleteAcc module");
-}
-
-login(){
-
-    char userLoginPwd[10];
-    int userLoginPwdIndex = 0;
-    char userLoginPwdTyping;
-
-    printf("\nenter your login pwd: ");
-
-    //masking password while typing
-    for(userLoginPwdIndex = 0; userLoginPwdIndex< 10; userLoginPwdIndex++){
-
-             userLoginPwdTyping = getch();
-
-                 if(userLoginPwdTyping == 13){
-                      break;
-                     }
-
-              userLoginPwd[userLoginPwdIndex] = userLoginPwdTyping;
-              userLoginPwdTyping = '*' ;
-              printf("%c ", userLoginPwdTyping);
-       }
-
-    //printing password
-    userLoginPwd[userLoginPwdIndex]='\0';
-    printf("\nyour password is %s", userLoginPwd);
 }
