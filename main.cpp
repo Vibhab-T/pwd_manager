@@ -1,13 +1,14 @@
 #include<iostream>
 #include<conio.h>
 #include<string>
+using namespace std;
 
 int createAcc(){
-    printf("createAcc module");
+    cout<<"createAcc module";
 }
 
 int deleteAcc(){
-    printf("deleteAcc module");
+    cout<<"deleteAcc module";
 }
 
 int login(){
@@ -16,7 +17,7 @@ int login(){
     int userLoginPwdIndex = 0;
     char userLoginPwdTyping;
 
-    printf("\nenter your login pwd: ");
+    cout<<"\nenter your login pwd: ";
 
     //masking password while typing
     for(userLoginPwdIndex = 0; userLoginPwdIndex< 10; userLoginPwdIndex++){
@@ -29,12 +30,12 @@ int login(){
 
               userLoginPwd[userLoginPwdIndex] = userLoginPwdTyping;
               userLoginPwdTyping = '*' ;
-              printf("%c ", userLoginPwdTyping);
+              cout<<userLoginPwdTyping; 
        }
 
     //printing password
     userLoginPwd[userLoginPwdIndex]='\0';
-    printf("\nyour password is %s", userLoginPwd);
+    cout<<"\nyour password is "<<userLoginPwd;
 }
 
 int main(){
@@ -42,24 +43,24 @@ int main(){
 int userMainChoice;
 
 //welcome text
-printf("   WELCOME TO THE\n"); 
+cout<<"   WELCOME TO THE\n"; 
 
 //ascii art made using text to ascii art generator online
 
-printf(" ___ _ _ _ _| |   _____ ___ ___ ___ ___ ___ ___\n");
-printf("| . | | | | . |  |     | .'|   | .'| . | -_|  _|\n");
-printf("|  _|_____|___|  |_|_|_|__,|_|_|__,|_  |___|_|  \n");
-printf("|_|                                |___|      \n\n");
+cout<<" ___ _ _ _ _| |   _____ ___ ___ ___ ___ ___ ___\n";
+cout<<"| . | | | | . |  |     | .'|   | .'| . | -_|  _|\n";
+cout<<"|  _|_____|___|  |_|_|_|__,|_|_|__,|_  |___|_|  \n";
+cout<<"|_|                                |___|      \n\n";
 
 //displaying option
-printf("1>create account\n");
-printf("2>delete account\n");
-printf("3>login\n");
-printf("4>exit\n\n");
+cout<<"1>create account\n";
+cout<<"2>delete account\n";
+cout<<"3>login\n";
+cout<<"4>exit\n\n";
 
 //taking user choice
-printf("enter your choice (1/2/3/4): ");
-scanf("%d", &userMainChoice);
+cout<<"enter your choice (1/2/3/4): ";
+cin>>userMainChoice;
 
 //redirecting user according to their choice
 switch(userMainChoice){
@@ -80,7 +81,7 @@ switch(userMainChoice){
     break;
 
     default:
-    printf("invalid choice!");
+    cout<<"invalid choice!";
 }
 
 }
