@@ -1,12 +1,14 @@
 #include<iostream>
-#include<conio.h>
 #include<string>
 #include<fstream>
 #include<iostream>
+#include <stdio.h>
+
 
 using namespace std;
 
 string masterPassword;
+
 const std::string fileName = "password.txt";
 
 string encryptPassword(string password){
@@ -14,7 +16,7 @@ string encryptPassword(string password){
     int lengthOfPassword = password.length(), loopIndex;
 
     for(loopIndex = 0; loopIndex<lengthOfPassword; loopIndex++){
-        cipherPassword += ((password[loopIndex]+4)/2);                   //encryption formula, can be changed to something more complex
+        cipherPassword += ((password[loopIndex]+4));  //encryption formula, can be changed to something more complex
     }
 
     return cipherPassword;
@@ -26,9 +28,8 @@ string decryptPassword(string cipherPassword){
 
     //decryption using the same encryption formula
     for(loopIndex = 0; loopIndex < lengthOfPassword; loopIndex++){
-        decryptedPassword += ((cipherPassword[loopIndex]*2)-4);
+        decryptedPassword += ((cipherPassword[loopIndex])-4);
     }
-
     return decryptedPassword;
 }
 
@@ -39,7 +40,7 @@ int createPasswordFile(){
     file.open(fileName, std::ios::in);
     if (file) {
         file.close();
-        return 0;
+        exit(0);
     }
 
     file.open(fileName, std::ios::out);
@@ -63,32 +64,100 @@ string storeInPasswordFile(){
 
     outputFile << masterPassword << endl;
     outputFile.close();
+
    }
 
 int setMasterPassword(){
     string password, cipherPassword;
+
+      fstream file;
+    // Check if the file already exists
+    file.open(fileName, std::ios::in);
+    if (file) {
+        file.close();
+        cout<<"master password already exits"<<endl;
+        exit(0);
+    }
+
     cout<<"\nset master password:"<<endl;
     cin>>password;
-   
+
    //calling encryption program
     cipherPassword = encryptPassword(password);
 
-    masterPassword= "master:" + password; 
-    cout<<masterPassword;
+    masterPassword= "master:" +  cipherPassword; 
+   // cout<<masterPassword;
     createPasswordFile();
     storeInPasswordFile();
+   
 }
 
 int createAcc(){
     setMasterPassword();
-    
+
 }
 
 int deleteAcc(){
-    cout<<"deleteAcc module";
+    const char* fileName = "password.txt";
+
+    // Check if the file exists before removing it
+    if (remove(fileName) != 0) {
+        perror("error deleting account");
+    } 
+    
+        else {
+            cout<<"account deleted successfully.\n";
+        }
+
+    return 0;
 }
 
 int login(){
+string tempMasterPassword;
+string tempDecryptedPassword;
+string tempExtractedPassword;
+
+fstream file;
+// Check if the file exists or not
+    file.open(fileName, std::ios::in);
+    if (!file) {
+        file.close();
+        cout<<"account does not exist"<<endl;
+        exit(0);
+    }
+
+    //ask for master password
+    cout<<"enter your master password: ";
+    cin>>tempMasterPassword;
+
+    // bring master password from file
+    ifstream fileTwo(fileName);
+    string line;
+    string masterPrefix = "master:";
+   
+    while (getline(fileTwo, line)) { //stores each line to line variable one by one
+ 
+        
+        if (line.find(masterPrefix) == 0) { //searched master: prefix in each line
+            // Extract the password from the line
+            tempExtractedPassword = line.substr(masterPrefix.length());
+            break; // Stop searching after finding the first password
+        }
+    }
+
+     // decrypt the master password
+    tempDecryptedPassword = decryptPassword(tempExtractedPassword);
+    
+  //compare with temp master password
+    if(tempMasterPassword==tempDecryptedPassword){
+        cout<<"password matched";
+        
+    }
+
+    else{
+        cout<<"wrong passcode";
+    }
+   
 /*
     char userLoginPwd[10];
     int userLoginPwdIndex = 0;
@@ -162,3 +231,4 @@ switch(userMainChoice){
 }
 
 }
+
