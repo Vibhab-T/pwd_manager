@@ -1,8 +1,6 @@
 #include<iostream>
 #include<string>
 #include<fstream>
-#include<iostream>
-#include <stdio.h>
 
 
 using namespace std;
@@ -16,7 +14,8 @@ string encryptPassword(string password){
     int lengthOfPassword = password.length(), loopIndex;
 
     for(loopIndex = 0; loopIndex<lengthOfPassword; loopIndex++){
-        cipherPassword += ((password[loopIndex]+4));  //encryption formula, can be changed to something more complex
+        //encryption formula, can be changed to something more complex
+        cipherPassword += ((password[loopIndex]+4)); 
     }
 
     return cipherPassword;
@@ -112,6 +111,68 @@ int deleteAcc(){
     return 0;
 }
 
+int addNewPassword(){
+
+    string passPrefix, subPass, passMainEncrypted, passMain;
+    cout<<"password for: ";
+    cin>>passPrefix;
+    cout<<"password: ";
+    cin>>subPass;
+
+    passMain = passPrefix + ":" + subPass;
+    passMainEncrypted = encryptPassword(passMain);
+
+    fstream file;
+    file.open(fileName, ios::app);
+    file<<passMainEncrypted;
+    file<<"\n";
+    file.close();
+
+   
+
+}
+
+
+int showPasswordList(){
+
+
+    // bring master password from file
+    fstream file(fileName);
+    string line;
+    string tempPassList;
+    string masterPrefix = "master:";
+   
+    while (getline(file, line)) { //stores each line to line variable one by one
+ 
+        
+        if (line.find(masterPrefix) != 0) { //searched master: prefix in each line
+            // Extract the password from the line
+           cout<<decryptPassword(line)<<endl;
+        }
+    }
+
+    
+
+    /*asking for new passcodes*/
+    int userChoiceSub;
+    cout<<"\ndo you want to add new password? (0/1):"<<endl;
+    cin>>userChoiceSub;
+
+    switch(userChoiceSub){
+
+        case 1:
+        addNewPassword();
+        break;
+
+        case 0:
+        exit(0);
+        break;
+    
+        default:
+        cout<<"invalid choice!";
+    }
+}
+
 int login(){
 string tempMasterPassword;
 string tempDecryptedPassword;
@@ -119,7 +180,7 @@ string tempExtractedPassword;
 
 fstream file;
 // Check if the file exists or not
-    file.open(fileName, std::ios::in);
+    file.open(fileName, ios::in);
     if (!file) {
         file.close();
         cout<<"account does not exist"<<endl;
@@ -150,7 +211,8 @@ fstream file;
     
   //compare with temp master password
     if(tempMasterPassword==tempDecryptedPassword){
-        cout<<"password matched";
+        cout<<"password matched\n";
+        showPasswordList();
         
     }
 
@@ -184,6 +246,7 @@ fstream file;
     cout<<"\nyour password is "<<userLoginPwd;*/
 }
 
+
 int main(){
 
 int userMainChoice;
@@ -207,7 +270,7 @@ cout<<"4>exit\n\n";
 //taking user choice
 cout<<"enter your choice (1/2/3/4): ";
 cin>>userMainChoice;
-
+top:
 //redirecting user according to their choice
 switch(userMainChoice){
     case 1:
@@ -231,4 +294,3 @@ switch(userMainChoice){
 }
 
 }
-
