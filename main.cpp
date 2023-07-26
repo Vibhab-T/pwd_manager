@@ -9,6 +9,17 @@ using namespace std;
 string masterPassword;
 const std::string fileName = "password.txt";
 
+string encryptPassword(string password){
+    string cipherPassword;
+    int lengthOfPassword = password.length(), loopIndex;
+
+    for(loopIndex = 0; loopIndex<lengthOfPassword; loopIndex++){
+        cipherPassword += ((password[loopIndex]+4)/2);                   //encryption formula, can be changed to something more complex
+    }
+
+    return cipherPassword;
+}
+
 int createPasswordFile(){
 
    fstream file;
@@ -43,14 +54,13 @@ string storeInPasswordFile(){
    }
 
 int setMasterPassword(){
-    string password;
+    string password, cipherPassword;
     cout<<"\nset master password:"<<endl;
     cin>>password;
-    /*encryption goes here
-    ...
-    ...
-    ...
-    */
+   
+   //calling encryption program
+    cipherPassword = encryptPassword(password);
+
     masterPassword= "master:" + password; 
     cout<<masterPassword;
     createPasswordFile();
