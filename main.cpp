@@ -1,10 +1,65 @@
 #include<iostream>
 #include<conio.h>
 #include<string>
+#include<fstream>
+#include<iostream>
+
 using namespace std;
 
+string masterPassword;
+const std::string fileName = "password.txt";
+
+int createPasswordFile(){
+
+   fstream file;
+    // Check if the file already exists
+    file.open(fileName, std::ios::in);
+    if (file) {
+        file.close();
+        return 0;
+    }
+
+    file.open(fileName, std::ios::out);
+
+    if (!file) {
+        std::cerr << "error creating the file " << fileName << ".\n";
+        return 1;
+    }
+
+    file.close();
+    return 0;
+
+ }
+
+string storeInPasswordFile(){
+  ofstream outputFile(fileName, ios::app);
+
+  if (!outputFile) {
+        cerr << "Error opening the file " << fileName << " for writing.\n";
+    }
+
+    outputFile << masterPassword << endl;
+    outputFile.close();
+   }
+
+int setMasterPassword(){
+    string password;
+    cout<<"\nset master password:"<<endl;
+    cin>>password;
+    /*encryption goes here
+    ...
+    ...
+    ...
+    */
+    masterPassword= "master:" + password; 
+    cout<<masterPassword;
+    createPasswordFile();
+    storeInPasswordFile();
+}
+
 int createAcc(){
-    cout<<"createAcc module";
+    setMasterPassword();
+    
 }
 
 int deleteAcc(){
@@ -12,7 +67,7 @@ int deleteAcc(){
 }
 
 int login(){
-
+/*
     char userLoginPwd[10];
     int userLoginPwdIndex = 0;
     char userLoginPwdTyping;
@@ -35,7 +90,7 @@ int login(){
 
     //printing password
     userLoginPwd[userLoginPwdIndex]='\0';
-    cout<<"\nyour password is "<<userLoginPwd;
+    cout<<"\nyour password is "<<userLoginPwd;*/
 }
 
 int main(){
