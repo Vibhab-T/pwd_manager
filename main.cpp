@@ -20,6 +20,18 @@ string encryptPassword(string password){
     return cipherPassword;
 }
 
+string decryptPassword(string cipherPassword){
+    string decryptedPassword;
+    int lengthOfPassword = cipherPassword.length(), loopIndex;
+
+    //decryption using the same encryption formula
+    for(loopIndex = 0; loopIndex < lengthOfPassword; loopIndex++){
+        decryptedPassword += ((cipherPassword[loopIndex]*2)-4);
+    }
+
+    return decryptedPassword;
+}
+
 int createPasswordFile(){
 
    fstream file;
