@@ -2,8 +2,10 @@
 #include<string>
 #include<fstream>
 
-
 using namespace std;
+
+void renderMenu();
+void renderAddPassword();
 
 string masterPassword;
 
@@ -63,7 +65,7 @@ string storeInPasswordFile(){
 
     outputFile << masterPassword << endl;
     outputFile.close();
-
+     renderMenu();
    }
 
 int setMasterPassword(){
@@ -74,11 +76,12 @@ int setMasterPassword(){
     file.open(fileName, std::ios::in);
     if (file) {
         file.close();
-        cout<<"master password already exits"<<endl;
+        cout<<"\nmaster password already exits!\n"<<endl;
+        renderMenu();
         exit(0);
     }
 
-    cout<<"\nset master password:"<<endl;
+    cout<<"\nset master password: ";
     cin>>password;
 
    //calling encryption program
@@ -102,10 +105,12 @@ int deleteAcc(){
     // Check if the file exists before removing it
     if (remove(fileName) != 0) {
         perror("error deleting account");
+        renderMenu();
     } 
     
         else {
-            cout<<"account deleted successfully.\n";
+            cout<<"\naccount deleted successfully.\n\n";
+            renderMenu();
         }
 
     return 0;
@@ -127,32 +132,10 @@ int addNewPassword(){
     file<<passMainEncrypted;
     file<<"\n";
     file.close();
-
-   
-
+    renderAddPassword();
 }
 
-
-int showPasswordList(){
-
-
-    // bring master password from file
-    fstream file(fileName);
-    string line;
-    string tempPassList;
-    string masterPrefix = "master:";
-   
-    while (getline(file, line)) { //stores each line to line variable one by one
- 
-        
-        if (line.find(masterPrefix) != 0) { //searched master: prefix in each line
-            // Extract the password from the line
-           cout<<decryptPassword(line)<<endl;
-        }
-    }
-
-    
-
+void renderAddPassword(){
     /*asking for new passcodes*/
     int userChoiceSub;
     cout<<"\ndo you want to add new password? (0/1):"<<endl;
@@ -165,12 +148,33 @@ int showPasswordList(){
         break;
 
         case 0:
-        exit(0);
+        renderMenu();
         break;
     
         default:
         cout<<"invalid choice!";
     }
+}
+
+int showPasswordList(){
+
+
+    // bring master password from file
+    fstream file(fileName);
+    string line;
+    string tempPassList;
+    string masterPrefix = "master:";
+   cout<<"\nyour password database: \n\n";
+    while (getline(file, line)) { //stores each line to line variable one by one
+ 
+        
+        if (line.find(masterPrefix) != 0) { //searched master: prefix in each line
+            // Extract the password from the line
+            
+           cout<<decryptPassword(line)<<endl;
+        }
+    }
+    renderAddPassword();
 }
 
 int login(){
@@ -188,7 +192,7 @@ fstream file;
     }
 
     //ask for master password
-    cout<<"enter your master password: ";
+    cout<<"\nenter your master password: ";
     cin>>tempMasterPassword;
 
     // bring master password from file
@@ -211,7 +215,7 @@ fstream file;
     
   //compare with temp master password
     if(tempMasterPassword==tempDecryptedPassword){
-        cout<<"password matched\n";
+        cout<<"\npassword matched\n";
         showPasswordList();
         
     }
@@ -219,50 +223,15 @@ fstream file;
     else{
         cout<<"wrong passcode";
     }
-   
-/*
-    char userLoginPwd[10];
-    int userLoginPwdIndex = 0;
-    char userLoginPwdTyping;
 
-    cout<<"\nenter your login pwd: ";
-
-    //masking password while typing
-    for(userLoginPwdIndex = 0; userLoginPwdIndex< 10; userLoginPwdIndex++){
-
-             userLoginPwdTyping = getch();
-
-                 if(userLoginPwdTyping == 13){
-                      break;
-                     }
-
-              userLoginPwd[userLoginPwdIndex] = userLoginPwdTyping;
-              userLoginPwdTyping = '*' ;
-              cout<<userLoginPwdTyping; 
-       }
-
-    //printing password
-    userLoginPwd[userLoginPwdIndex]='\0';
-    cout<<"\nyour password is "<<userLoginPwd;*/
 }
 
-
-int main(){
+void renderMenu(){
 
 int userMainChoice;
-
-//welcome text
-cout<<"   WELCOME TO THE\n"; 
-
-//ascii art made using text to ascii art generator online
-
-cout<<" ___ _ _ _ _| |   _____ ___ ___ ___ ___ ___ ___\n";
-cout<<"| . | | | | . |  |     | .'|   | .'| . | -_|  _|\n";
-cout<<"|  _|_____|___|  |_|_|_|__,|_|_|__,|_  |___|_|  \n";
-cout<<"|_|                                |___|      \n\n";
-
-//displaying option
-cout<<"1>create account\n";
+    //displaying option
+cout<<"\nmenu: \n";
+cout<<"\n1>create account\n";
 cout<<"2>delete account\n";
 cout<<"3>login\n";
 cout<<"4>exit\n\n";
@@ -292,5 +261,20 @@ switch(userMainChoice){
     default:
     cout<<"invalid choice!";
 }
+}
+
+int main(){
+
+//welcome text
+cout<<"   WELCOME TO THE\n"; 
+
+//ascii art made using text to ascii art generator online
+
+cout<<" ___ _ _ _ _| |   _____ ___ ___ ___ ___ ___ ___\n";
+cout<<"| . | | | | . |  |     | .'|   | .'| . | -_|  _|\n";
+cout<<"|  _|_____|___|  |_|_|_|__,|_|_|__,|_  |___|_|  \n";
+cout<<"|_|                                |___|      \n\n";
+
+renderMenu();
 
 }
