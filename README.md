@@ -1,2 +1,7 @@
 # pwd_manager
-[documentation...]
+
+A password manager application made using C++ to learn filehandling, encryption, and GitHub.<br>It provides a way to store passwords locally. It lacks secure encryption, multiple users, and<br>OOP concepts.
+
+**Author:**<br>
+[@dofiki](https://www.github.com/dofiki) &
+[@vibhab-T](https://github.com/Vibhab-T)
